@@ -2,21 +2,19 @@ package wk.pl.zadanie31;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import wk.pl.zadanie31.city.CityDto;
 import wk.pl.zadanie31.error.WeatherDataNotAvailableException;
-import wk.pl.zadanie31.weather.WeatherDto;
+import wk.pl.zadanie31.weather.WeatherResponseDto;
 import wk.pl.zadanie31.weather.WeatherResult;
 
 @Service
 public class WeatherService {
 
     private static final RestTemplate restTemplate = new RestTemplate();
-    private static final double KELVIN_TO_CELCIUS = -272.15;
 
     public WeatherResult getWeather(String name) {
         String weatherUrl = getWeatherUrl(name);
         try {
-            WeatherDto weather = restTemplate.getForObject(weatherUrl, WeatherDto.class);
+            WeatherResponseDto weather = restTemplate.getForObject(weatherUrl, WeatherResponseDto.class);
             if (weather.getName().startsWith(name)) {
                 return toWeatherResult(weather, name);
             } else {
@@ -37,18 +35,18 @@ public class WeatherService {
             double lon = city.getLon();
             return "http://api.openweathermap.org/data/2.5/weather?lat=" +
                     lat + "&lon=" + lon +
-                    "&appid=ed9e933754414fd27117f41869a3b90d";
+                    "&appid=ed9e933754414fd27117f41869a3b90d&units=metric";
         } catch (Exception e) {
             throw new WeatherDataNotAvailableException();
         }
     }
 
-    private WeatherResult toWeatherResult(WeatherDto weatherDto, String name) {
+    private WeatherResult toWeatherResult(WeatherResponseDto weatherDto, String name) {
         return WeatherResult.builder()
-                .temp(String.format("%.2f", weatherDto.getMain().getTemp() + KELVIN_TO_CELCIUS))
-                .feels_like(String.format("%.2f", weatherDto.getMain().getFeels_like() + KELVIN_TO_CELCIUS))
-                .temp_max(String.format("%.2f", weatherDto.getMain().getTemp_max() + KELVIN_TO_CELCIUS))
-                .temp_min(String.format("%.2f", weatherDto.getMain().getTemp_min() + KELVIN_TO_CELCIUS))
+                .temp(weatherDto.getMain().getTemp())
+                .feelsLike(weatherDto.getMain().getFeelsLike())
+                .tempMax(weatherDto.getMain().getTempMax())
+                .tempMin(weatherDto.getMain().getTempMin())
                 .pressure(weatherDto.getMain().getPressure())
                 .humidity(weatherDto.getMain().getHumidity())
                 .visibility(weatherDto.getVisibility())

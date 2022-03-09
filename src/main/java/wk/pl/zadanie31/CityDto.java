@@ -1,5 +1,6 @@
 package wk.pl.zadanie31;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Map;
@@ -8,7 +9,8 @@ import java.util.Map;
 public class CityDto {
 
     private String name;
-    private Map<String, String> local_names;
+    @JsonProperty("local_names")
+    private Map<String, String> localNames;
     private double lat;
     private double lon;
     private String country;

@@ -3,7 +3,7 @@ package wk.pl.zadanie31.weather;
 import lombok.Data;
 
 @Data
-public class Wind {
+public class WindDto {
 
     private double speed;
     private double deg;

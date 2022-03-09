@@ -3,7 +3,7 @@ package wk.pl.zadanie31.weather;
 import lombok.Data;
 
 @Data
-public class Sys {
+public class SysDto {
 
     private int type;
     private long id;

@@ -8,10 +8,10 @@
 <body>
 <div style="width: 100%; max-width: 1000px; margin: 100px auto">
     <h1>Weather</h1>
-    <form th:action="@{/}" method="post">
+    <form th:action="@{/}" method="get">
         <div class="col">
                 <label for="name" class="form-label">Enter city name</label>
-                <input name="name" type="text" class="form-control" id="name" placeholder="ex. London" required>
+                <input th:value="${inputPlaceholder}" name="city" type="text" class="form-control" id="name" required>
         </div>
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
@@ -24,19 +24,19 @@
             <tbody>
             <tr>
                 <td>Temperature</td>
-                <td th:text="|${weather.temp} &#8451|"></td>
+                <td th:text="|${#numbers.formatDecimal(weather.temp, 1, 2)} &#8451|"></td>
             </tr>
             <tr>
                 <td>Feels_like temperature</td>
-                <td th:text="|${weather.feels_like} &#8451|"></td>
+                <td th:text="|${#numbers.formatDecimal(weather.getFeelsLike, 1, 2)} &#8451|"></td>
             </tr>
             <tr>
                 <td>Min temperature</td>
-                <td th:text="|${weather.temp_min} &#8451|"></td>
+                <td th:text="|${#numbers.formatDecimal(weather.getTempMin, 1, 2)} &#8451|"></td>
             </tr>
             <tr>
                 <td>Max temperature</td>
-                <td th:text="|${weather.temp_max} &#8451|"></td>
+                <td th:text="|${#numbers.formatDecimal(weather.getTempMax, 1, 2)} &#8451|"></td>
             </tr>
             <tr>
                 <td>Pressure</td>

@@ -7,10 +7,10 @@ import lombok.Data;
 @Builder
 public class WeatherResult {
 
-    private String temp;
-    private String feels_like;
-    private String temp_min;
-    private String temp_max;
+    private double temp;
+    private double feelsLike;
+    private double tempMin;
+    private double tempMax;
     private double pressure;
     private double humidity;
     private double visibility;

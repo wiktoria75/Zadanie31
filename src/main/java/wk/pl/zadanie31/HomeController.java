@@ -3,7 +3,6 @@ package wk.pl.zadanie31;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import wk.pl.zadanie31.weather.WeatherResult;
 
@@ -17,14 +16,14 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home() {
-        return "home";
-    }
-
-    @PostMapping("/")
-    public String search(@RequestParam("name") String name, Model model) {
-        WeatherResult weather = weatherService.getWeather(name);
-        model.addAttribute("weather", weather);
+    public String home(@RequestParam(value = "city", required = false) String city, Model model) {
+        if (city != null) {
+            WeatherResult weather = weatherService.getWeather(city);
+            model.addAttribute("weather", weather);
+            model.addAttribute("inputPlaceholder", weather.getCity());
+        } else {
+            model.addAttribute("inputPlaceholder", "ex. London");
+        }
         return "home";
     }
 }
